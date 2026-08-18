@@ -1,0 +1,24 @@
+arch-builder:
+  tag: latest
+  module: archlinux
+  subdir: arch-builder
+
+debian-builder:
+  tag: latest
+  module: debian
+  subdir: debian-builder
+
+debian-builder-rust:
+  tag: latest
+  module: debian
+  subdir: debian-builder-rust
+
+debian-builder-python:
+  tag: latest
+  module: debian
+  subdir: debian-builder-python
+
+debian-builder-php:
+  tag: latest
+  module: debian
+  subdir: debian-builder-php
