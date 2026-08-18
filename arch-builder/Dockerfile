@@ -23,11 +23,16 @@ RUN chmod +x /usr/local/bin/build.sh
 USER makepkg
 WORKDIR /home/makepkg
 
-# yay-bin installieren (binäres Release, kein Go-Compiler nötig)
+# yay direkt von den GitHub-Releases installieren statt ueber das
+# yay-bin-PKGBUILD von aur.archlinux.org -- das PKGBUILD laedt ohnehin nur
+# genau dieses Release-Tarball herunter, macht also keinen Unterschied
+# ausser dass wir nicht mehr von der Erreichbarkeit von AUR abhaengen
+# (dort kam es zu TLS-Verbindungsabbruechen/Ausfaellen).
 RUN cd /tmp && \
-    git clone https://aur.archlinux.org/yay-bin.git && \
-    cd yay-bin && \
-    makepkg -si --noconfirm && \
-    rm -rf /tmp/yay-bin
+    ver=$(curl -fsSL https://api.github.com/repos/Jguer/yay/releases/latest | grep -oP '"tag_name":\s*"v\K[^"]+') && \
+    curl -fsSL -o yay.tar.gz "https://github.com/Jguer/yay/releases/download/v${ver}/yay_${ver}_x86_64.tar.gz" && \
+    mkdir yay-bin && tar -xzf yay.tar.gz -C yay-bin --strip-components=1 && \
+    sudo install -Dm755 yay-bin/yay /usr/bin/yay && \
+    rm -rf yay.tar.gz yay-bin
 
 ENTRYPOINT ["/usr/local/bin/build.sh"]
