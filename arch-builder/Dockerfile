@@ -1,10 +1,10 @@
 FROM archlinux:latest
 
 # Simpsons-Mirror: core/extra/multilib via $repo-Variable, SSL für interne CA deaktiviert
-RUN echo 'Server = https://mirror.simpsons.lan/files/archlinux/$repo/os/$arch' \
+RUN echo 'Server = https://mirror.simpsons.lan/archlinux/$repo/os/$arch' \
         > /etc/pacman.d/mirrorlist && \
     sed -i '/^\[options\]/a XferCommand = /usr/bin/curl -k -L -C - -f --no-progress-meter -o %o %u' /etc/pacman.conf && \
-    printf '\n[simpsons]\nSigLevel = Optional TrustAll\nServer = https://mirror.simpsons.lan/files/archlinux/simpsons/os/$arch\n' \
+    printf '\n[simpsons]\nSigLevel = Optional TrustAll\nServer = https://mirror.simpsons.lan/archlinux/simpsons/os/$arch\n' \
         >> /etc/pacman.conf
 
 RUN pacman -Syu --noconfirm && \
