@@ -10,9 +10,9 @@ FROM debian:stable-slim
 # wird also als "URL/ ./" adressiert – nicht als Suite plus Komponente. Sonst
 # sucht apt unter dists/simpsons/ und bekommt 404.
 RUN rm -f /etc/apt/sources.list.d/debian.sources && \
-    printf 'deb https://mirror.simpsons.lan/files/debian/debian-trixie/ trixie main contrib non-free non-free-firmware\n\
-deb https://mirror.simpsons.lan/files/debian/debian-trixie-security/ trixie-security main\n\
-deb [trusted=yes] https://mirror.simpsons.lan/files/debian/simpsons/ ./\n' > /etc/apt/sources.list && \
+    printf 'deb https://mirror.simpsons.lan/debian/debian-trixie/ trixie main contrib non-free non-free-firmware\n\
+deb https://mirror.simpsons.lan/debian/debian-trixie-security/ trixie-security main\n\
+deb [trusted=yes] https://mirror.simpsons.lan/debian/simpsons/ ./\n' > /etc/apt/sources.list && \
     echo 'Acquire::https::Verify-Peer "false";' > /etc/apt/apt.conf.d/99simpsons-mirror
 
 RUN apt-get update && \
